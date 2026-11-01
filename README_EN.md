@@ -92,6 +92,15 @@ pip install torch --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
+If Git LFS stalls behind a VPN/proxy, clone without LFS and download from GitHub:
+
+```powershell
+$env:GIT_LFS_SKIP_SMUDGE=1
+git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
+cd Doudizhu
+python scripts/download_weights.py
+```
+
 CPU-only:
 
 ```powershell

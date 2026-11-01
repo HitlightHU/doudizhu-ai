@@ -94,6 +94,15 @@ pip install torch --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
+如果 Git LFS 在 VPN/代理下卡住，改用无 LFS 克隆 + 官方直链下载：
+
+```powershell
+$env:GIT_LFS_SKIP_SMUDGE=1
+git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
+cd Doudizhu
+python scripts/download_weights.py
+```
+
 CPU 用户：
 
 ```powershell
