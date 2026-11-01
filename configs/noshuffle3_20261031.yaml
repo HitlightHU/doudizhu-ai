@@ -1,0 +1,39 @@
+# 不洗牌专家：从当前 5.61M adapter 继续；上一局出牌顺序 + 剩余手牌回收，切牌，17 张连续发
+seed: 41
+n_envs: 2048
+games_per_iter: 16384
+train_steps: 768
+batch_size: 2048
+buffer_cap: 2000000
+lr: 0.00004
+lr_final: 0.00002
+lr_decay_games: 3000000
+grad_clip: 10.0
+eps_start: 0.03
+eps_end: 0.015
+eps_decay_games: 1500000
+max_iters: 80
+eval_every: 20
+eval_games: 512
+bot_eval_every: 40
+bot_eval_games: 256
+team_eval_every: 40
+team_eval_games: 256
+bot_prob: 0.10
+oracle_landlord: true
+oracle_prob: 0.15
+bid_net: checkpoints/bid_net.pt
+pool_size: 3
+pool_prob: 0.30
+pool_update_every: 20
+save_every: 10
+no_shuffle: true
+run_dir: runs/noshuffle3_20261031
+device: cuda
+model:
+  state_hidden: 512
+  lstm_hidden: 256
+  action_hidden: 128
+  q_hidden: 256
+  use_adapter: true
+  adapter_hidden: 1024

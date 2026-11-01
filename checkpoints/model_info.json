@@ -1,0 +1,76 @@
+{
+  "name": "Doudizhu AI v1.0.0",
+  "release": "2026-11-01",
+  "files": {
+    "regular": "checkpoints/best_model.pt",
+    "no_shuffle": "checkpoints/best_model_noshuffle.pt",
+    "bid_net": "checkpoints/bid_net.pt"
+  },
+  "regular_model": {
+    "params_m": 5.61,
+    "architecture": "v2 4.56M DMC network + 1.05M residual adapter; 3-checkpoint soup",
+    "actions": 26064,
+    "action_space": "26,064 rank-canonical actions + PASS",
+    "state_dim": 132,
+    "hist_len": 15,
+    "hist_dim": 33,
+    "sha256": "C2CA6B55026C7DABCE86379777C099E029BEE97FD7D9F0C54C9D5E47F5D48F41"
+  },
+  "no_shuffle_model": {
+    "params_m": 5.61,
+    "purpose": "Analysis mode only; replaces regular model when 不洗牌模式 selected",
+    "training_iters": 80,
+    "training_games": 1313483,
+    "sha256": "37BACC29BAF799B6E2F6E5FEBD026F7A4F7D803E4E6738AD5BE4A40029F8265E"
+  },
+  "bid_net": {
+    "file": "checkpoints/bid_net.pt",
+    "size_bytes": 84765,
+    "val_mae": 0.102,
+    "corr_landlord": 0.856,
+    "mean_p_landlord": 0.4006,
+    "mean_p_farmer": 0.5974,
+    "sha256": "64B8CA85A625D5F094B01F61874D03059915E6D34775EAF9E8A6CFFB226EFC6F",
+    "note": "Used by regular analysis mode only. No-shuffle mode estimates bidding with the no-shuffle model rollout."
+  },
+  "evaluation": {
+    "protocol": "1024 fixed deals, 3 seats; seed 2025",
+    "regular_vs_random": 0.958,
+    "regular_vs_greedy": 0.814,
+    "regular_vs_heuristic_one_seat": 0.657,
+    "regular_vs_heuristic_team": 0.770,
+    "regular_vs_heuristic_oracle_landlord": 0.578,
+    "no_shuffle_256_deals_768_games": {
+      "regular": {"win": 0.5625, "landlord_win": 0.4375, "farmer_win": 0.625},
+      "no_shuffle": {"win": 0.6549, "landlord_win": 0.5898, "farmer_win": 0.6875}
+    },
+    "no_shuffle_head_to_head_512_games": {
+      "regular_side_win": 0.3613,
+      "no_shuffle_side_win": 0.6387
+    },
+    "note": "No human evaluation; bot results are not human win rates."
+  },
+  "training": {
+    "base_games": "v1 2.07M + v2 6.56M + adapter 1.33M = about 9.96M",
+    "no_shuffle_extra_games": 1313483,
+    "parallel_envs": 2048,
+    "gpu": "RTX 5070 Ti 16GB",
+    "throughput": "about 1,300-1,400 games/s for regular training; CPU self-play is the bottleneck",
+    "gpu_util": "about 10%-30% during training"
+  },
+  "inference": {
+    "gui_search": "anytime rollout 4 to 512 samples; about 0.2s UI updates; first useful top-3 before 1.2s",
+    "latency_ms_32_deals": {
+      "first_p99": 136,
+      "64_samples_p99": 672,
+      "128_samples_p99": 875,
+      "512_samples_p99": 1792
+    },
+    "under_1200_at_128": "32/32"
+  },
+  "rules": {
+    "no_shuffle_bid": "only p_landlord > 0.75 recommends grabbing; strict greater-than",
+    "regular_bid": "p_ll > p_f OR p_ll > 0.70 OR p_ll >= p_f - 0.05",
+    "double": "own camp win estimate > 0.70"
+  }
+}

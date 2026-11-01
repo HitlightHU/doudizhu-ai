@@ -1,0 +1,22 @@
+{
+  "regular": {
+    "games": 768,
+    "invalid": 0,
+    "win": 0.5625,
+    "landlord_games": 256,
+    "landlord_win": 0.4375,
+    "farmer_games": 512,
+    "farmer_win": 0.625,
+    "elapsed_s": 13.9
+  },
+  "noshuffle": {
+    "games": 768,
+    "invalid": 0,
+    "win": 0.6549479166666666,
+    "landlord_games": 256,
+    "landlord_win": 0.58984375,
+    "farmer_games": 512,
+    "farmer_win": 0.6875,
+    "elapsed_s": 12.6
+  }
+}

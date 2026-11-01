@@ -1,0 +1,18 @@
+# 默认训练配置（单卡 RTX 5070 Ti 级别）
+seed: 1
+n_envs: 256            # 并行对局数
+games_per_iter: 512    # 每轮生成局数
+train_steps: 32        # 每轮梯度步数
+batch_size: 1024
+buffer_cap: 1000000
+lr: 0.0003
+grad_clip: 10.0
+eps_start: 0.35
+eps_end: 0.05
+eps_decay_games: 400000
+max_iters: 100000
+eval_every: 20
+eval_games: 512
+save_every: 20
+run_dir: runs/default
+device: cuda

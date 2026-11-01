@@ -1,0 +1,42 @@
+{
+  "model": "checkpoints/best_model.pt",
+  "meta": {
+    "release": "v1.0.0",
+    "params_m": 5.61,
+    "soup": "best_bot(iter 80) + best_team(iter 40) + latest(iter 80)"
+  },
+  "games_per_mode": 1024,
+  "seed": 2025,
+  "vs_random": {
+    "games": 3072,
+    "win": 0.9583333333333334,
+    "landlord_games": 1024,
+    "landlord_win": 0.97265625,
+    "farmer_games": 2048,
+    "farmer_win": 0.951171875
+  },
+  "vs_greedy": {
+    "games": 3072,
+    "win": 0.8138020833333334,
+    "landlord_games": 1024,
+    "landlord_win": 0.814453125,
+    "farmer_games": 2048,
+    "farmer_win": 0.8134765625
+  },
+  "vs_heuristic": {
+    "games": 3072,
+    "win": 0.6569010416666666,
+    "landlord_games": 1024,
+    "landlord_win": 0.767578125,
+    "farmer_games": 2048,
+    "farmer_win": 0.6015625
+  },
+  "team_vs_heuristic": {
+    "landlord_games": 1024,
+    "landlord_win": 0.7666015625,
+    "farmers_games": 1024,
+    "farmers_win": 0.7724609375,
+    "win": 0.76953125
+  },
+  "elapsed_s": 6.7
+}

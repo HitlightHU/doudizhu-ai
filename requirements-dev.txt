@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Training, plotting and experiment tooling
+tensorboard>=2.16
+matplotlib>=3.8
+tqdm>=4.60

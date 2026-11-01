@@ -1,0 +1,7 @@
+﻿model: checkpoints/best_model.pt (adapter soup)
+random: 0.9538
+heuristic_random_ll: 0.6647
+heuristic_oracle_ll: 0.5781
+landlord_win_oracle: 0.9082
+farmer_win_oracle: 0.4131
+games: 512 hands x 3 seats

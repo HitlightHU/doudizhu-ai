@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+envs/
+wheels/
+
+# Training artifacts
+runs/
+*.log
+*.csv
+tb/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local screenshots created by tests
+checkpoints/gui_test*.png
