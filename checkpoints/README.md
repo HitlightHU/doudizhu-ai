@@ -3,7 +3,7 @@
 [简体中文](README.md) | [English](README_EN.md)
 
 发布版本：**v1.0.0**（2026-11-01）  
-权重只保留推理必需的最小 state_dict，不含 optimizer。
+权重只保留推理必需的最小 state_dict，不含 optimizer；两个大权重通过 **Git LFS** 存放。
 
 ## 文件
 

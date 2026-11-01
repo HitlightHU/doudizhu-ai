@@ -80,6 +80,8 @@
 ### 安装
 
 ```powershell
+# 两个权重使用 Git LFS；先安装/启用 git-lfs（Git for Windows 自带）
+git lfs install
 git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
 cd Doudizhu
 
@@ -181,7 +183,8 @@ Windows 也可以双击 `run_gui.bat`。
 | `checkpoints/best_model_noshuffle.pt` | 不洗牌分析模式专用 | 5.61M |
 | `checkpoints/bid_net.pt` | 常规模式叫地主先验 | 小网络 |
 
-权重是**推理所需的最小 state_dict**，不包含 optimizer；以 **FP16 存储（每个 11.2MB），加载时转回 FP32 推理**。完整指标见
+权重是**推理所需的最小 state_dict**，不包含 optimizer；以 **FP16 存储（每个 11.2MB），加载时转回 FP32 推理**。  
+两个权重通过 **Git LFS** 存放；克隆前先 `git lfs install`。完整指标见
 [`checkpoints/model_info.json`](checkpoints/model_info.json) 和 [模型卡](checkpoints/README.md)。
 
 ## 技术方案

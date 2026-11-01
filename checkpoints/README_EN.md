@@ -3,7 +3,7 @@
 [简体中文](README.md) | [English](README_EN.md)
 
 Release: **v1.0.0** (2026-11-01)  
-Only minimal inference state dicts are included; no optimizer.
+Only minimal inference state dicts are included; no optimizer. The two large weights are stored via **Git LFS**.
 
 ## Files
 
