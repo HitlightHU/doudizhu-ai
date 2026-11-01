@@ -178,7 +178,7 @@ Full-side head-to-head on the same deals (512 games, no bots, landlord/farmer sw
 | `checkpoints/best_model_noshuffle.pt` | no-shuffle analysis expert | 5.61M |
 | `checkpoints/bid_net.pt` | regular-mode bid prior | small MLP |
 
-Weights are minimal inference-only state dicts (no optimizer). Full metrics are in
+Weights are minimal inference-only state dicts (no optimizer), stored in **FP16 (11.2MB each) and loaded as FP32**. Full metrics are in
 [`checkpoints/model_info.json`](checkpoints/model_info.json) and the [model card](checkpoints/README_EN.md).
 
 ## Architecture

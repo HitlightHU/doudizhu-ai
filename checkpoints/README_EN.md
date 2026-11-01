@@ -9,15 +9,15 @@ Only minimal inference state dicts are included; no optimizer.
 
 | File | Purpose | Size |
 |---|---|---:|
-| `best_model.pt` | regular default | 22.4 MB |
-| `best_model_noshuffle.pt` | no-shuffle analysis expert | 22.4 MB |
+| `best_model.pt` | regular default (FP16 storage, loaded as FP32) | 11.2 MB |
+| `best_model_noshuffle.pt` | no-shuffle analysis expert (FP16 storage, loaded as FP32) | 11.2 MB |
 | `bid_net.pt` | regular-mode bid prior | 84 KB |
 
 SHA256:
 
 ```text
-best_model.pt          C2CA6B55026C7DABCE86379777C099E029BEE97FD7D9F0C54C9D5E47F5D48F41
-best_model_noshuffle.pt 37BACC29BAF799B6E2F6E5FEBD026F7A4F7D803E4E6738AD5BE4A40029F8265E
+best_model.pt          C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0
+best_model_noshuffle.pt 5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED
 bid_net.pt             64B8CA85A625D5F094B01F61874D03059915E6D34775EAF9E8A6CFFB226EFC6F
 ```
 

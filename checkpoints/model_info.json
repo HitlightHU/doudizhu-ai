@@ -14,14 +14,16 @@
     "state_dim": 132,
     "hist_len": 15,
     "hist_dim": 33,
-    "sha256": "C2CA6B55026C7DABCE86379777C099E029BEE97FD7D9F0C54C9D5E47F5D48F41"
+    "sha256": "C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0",
+    "file_bytes": 11229155
   },
   "no_shuffle_model": {
     "params_m": 5.61,
     "purpose": "Analysis mode only; replaces regular model when 不洗牌模式 selected",
     "training_iters": 80,
     "training_games": 1313483,
-    "sha256": "37BACC29BAF799B6E2F6E5FEBD026F7A4F7D803E4E6738AD5BE4A40029F8265E"
+    "sha256": "5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED",
+    "file_bytes": 11230022
   },
   "bid_net": {
     "file": "checkpoints/bid_net.pt",
@@ -38,11 +40,19 @@
     "regular_vs_random": 0.958,
     "regular_vs_greedy": 0.814,
     "regular_vs_heuristic_one_seat": 0.657,
-    "regular_vs_heuristic_team": 0.770,
+    "regular_vs_heuristic_team": 0.77,
     "regular_vs_heuristic_oracle_landlord": 0.578,
     "no_shuffle_256_deals_768_games": {
-      "regular": {"win": 0.5625, "landlord_win": 0.4375, "farmer_win": 0.625},
-      "no_shuffle": {"win": 0.6549, "landlord_win": 0.5898, "farmer_win": 0.6875}
+      "regular": {
+        "win": 0.5625,
+        "landlord_win": 0.4375,
+        "farmer_win": 0.625
+      },
+      "no_shuffle": {
+        "win": 0.6549,
+        "landlord_win": 0.5898,
+        "farmer_win": 0.6875
+      }
     },
     "no_shuffle_head_to_head_512_games": {
       "regular_side_win": 0.3613,
@@ -72,5 +82,6 @@
     "no_shuffle_bid": "only p_landlord > 0.75 recommends grabbing; strict greater-than",
     "regular_bid": "p_ll > p_f OR p_ll > 0.70 OR p_ll >= p_f - 0.05",
     "double": "own camp win estimate > 0.70"
-  }
+  },
+  "storage": "FP16 state dict; loaded as FP32"
 }
