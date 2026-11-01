@@ -78,10 +78,11 @@ A fully local DouDizhu AI project with **self-play training code, two selectable
 ### Install
 
 ```powershell
-# Weights use Git LFS; install/enable it first (bundled with Git for Windows)
-git lfs install
 git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
 cd Doudizhu
+
+# Fetch both weights from the GitHub Release (range resume + SHA256 check)
+python scripts/download_weights.py
 
 python -m venv .venv
 .\.venv\Scripts\activate
@@ -92,14 +93,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
-If Git LFS stalls behind a VPN/proxy, clone without LFS and download from GitHub:
-
-```powershell
-$env:GIT_LFS_SKIP_SMUDGE=1
-git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
-cd Doudizhu
-python scripts/download_weights.py
-```
+Weights are not in Git history; they live in [Release v1.0.0](https://github.com/HitlightHU/doudizhu-ai/releases/tag/v1.0.0).
+The downloader resumes from a `.part` file and verifies SHA256.
 
 CPU-only:
 
@@ -190,7 +185,7 @@ Full-side head-to-head on the same deals (512 games, no bots, landlord/farmer sw
 | `checkpoints/bid_net.pt` | regular-mode bid prior | small MLP |
 
 Weights are minimal inference-only state dicts (no optimizer), stored in **FP16 (11.2MB each) and loaded as FP32**.  
-The two weights are stored via **Git LFS**; run `git lfs install` before cloning. Full metrics are in
+The two weights are **GitHub Release assets**; run `python scripts/download_weights.py`. Git history contains code only. Full metrics are in
 [`checkpoints/model_info.json`](checkpoints/model_info.json) and the [model card](checkpoints/README_EN.md).
 
 ## Architecture

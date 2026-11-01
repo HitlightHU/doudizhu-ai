@@ -3,7 +3,7 @@
 [简体中文](README.md) | [English](README_EN.md)
 
 发布版本：**v1.0.0**（2026-11-01）  
-权重只保留推理必需的最小 state_dict，不含 optimizer；两个大权重通过 **Git LFS** 存放；若 LFS 卡住，运行 `python scripts/download_weights.py` 直接从 GitHub 下载。
+权重只保留推理必需的最小 state_dict，不含 optimizer；两个大权重作为 **GitHub Release v1.0.0 附件**，运行 `python scripts/download_weights.py` 下载（支持断点续传 + SHA256 校验）。
 
 ## 文件
 

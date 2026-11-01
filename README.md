@@ -80,10 +80,11 @@
 ### 安装
 
 ```powershell
-# 两个权重使用 Git LFS；先安装/启用 git-lfs（Git for Windows 自带）
-git lfs install
 git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
 cd Doudizhu
+
+# 从 GitHub Release 下载两个权重（支持断点续传，自动校验 SHA256）
+python scripts/download_weights.py
 
 python -m venv .venv
 .\.venv\Scripts\activate
@@ -94,14 +95,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
-如果 Git LFS 在 VPN/代理下卡住，改用无 LFS 克隆 + 官方直链下载：
-
-```powershell
-$env:GIT_LFS_SKIP_SMUDGE=1
-git clone https://github.com/HitlightHU/doudizhu-ai.git Doudizhu
-cd Doudizhu
-python scripts/download_weights.py
-```
+权重不占 Git 历史，放在 [Release v1.0.0](https://github.com/HitlightHU/doudizhu-ai/releases/tag/v1.0.0)；
+下载脚本可重复运行，断了会从 `.part` 续传。
 
 CPU 用户：
 
@@ -193,7 +188,7 @@ Windows 也可以双击 `run_gui.bat`。
 | `checkpoints/bid_net.pt` | 常规模式叫地主先验 | 小网络 |
 
 权重是**推理所需的最小 state_dict**，不包含 optimizer；以 **FP16 存储（每个 11.2MB），加载时转回 FP32 推理**。  
-两个权重通过 **Git LFS** 存放；克隆前先 `git lfs install`。完整指标见
+两个权重作为 **GitHub Release 附件**存放，运行 `python scripts/download_weights.py` 下载；Git 历史里只有代码。完整指标见
 [`checkpoints/model_info.json`](checkpoints/model_info.json) 和 [模型卡](checkpoints/README.md)。
 
 ## 技术方案

@@ -83,5 +83,6 @@
     "regular_bid": "p_ll > p_f OR p_ll > 0.70 OR p_ll >= p_f - 0.05",
     "double": "own camp win estimate > 0.70"
   },
-  "storage": "FP16 state dict; loaded as FP32"
+  "storage": "FP16 state dict; loaded as FP32",
+  "distribution": "GitHub Release v1.0.0 assets; download with scripts/download_weights.py"
 }
