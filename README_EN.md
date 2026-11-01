@@ -15,9 +15,16 @@
   <img src="https://img.shields.io/badge/GUI-Tkinter-2E6B52" alt="GUI">
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License">
   <img src="https://img.shields.io/badge/Weights-Included-success" alt="Weights">
+  <img src="https://img.shields.io/badge/Params-5.61M-blue" alt="Params">
+  <img src="https://img.shields.io/badge/VRAM-1--2GB-orange" alt="VRAM">
+  <img src="https://img.shields.io/badge/Local-Offline-success" alt="Local">
 </p>
 
 A fully local DouDizhu AI project with **self-play training code, two selectable analysis models, a Tkinter GUI, evaluation scripts and regression tests**. The models only use information visible to the current player; opponent hands are never fed into the network.
+
+> **A 5.61M-parameter small model built for local, low-resource deployment.**  
+> No cloud API and no large-VRAM requirement: weights are about 45MB (FP32), and GPU CUDA context is typically 1–2GB. It also starts on CPU without a discrete GPU (search is slower).  
+> One download + one command gets you playing, with competitive play under limited compute, VRAM and parameter budget.
 
 > Research / entertainment project. Not an online-game cheat, and not affiliated with Tencent or any official DouDizhu platform.
 
@@ -26,6 +33,7 @@ A fully local DouDizhu AI project with **self-play training code, two selectable
 ## Contents
 
 - [Features](#features)
+- [Why it works locally](#why-it-works-locally)
 - [Screenshots](#screenshots)
 - [Quick start](#quick-start)
 - [Analysis modes](#analysis-modes)
@@ -48,7 +56,32 @@ A fully local DouDizhu AI project with **self-play training code, two selectable
 - **Analysis mode**: enter 17 cards → bid advice → bottom cards/seat → double advice → play-by-play top-3 and both-camp win rates.
 - **No-shuffle mode**: dedicated expert model and dedicated win-rate parameters; does not reuse the regular bid net; mode survives reset.
 - **~0.2s UI updates**: background anytime search, 4→8→…→512 samples; usable top-3 before 1.2s and deeper search afterwards.
-- **Local inference**: no network needed; weights are included.
+- **Local inference**: no network needed after downloading the released weights.
+
+## Why it works locally
+
+This is not “a large model squeezed onto a laptop”; it is designed as **small model + search** from the start:
+
+| Item | Actual footprint / design |
+|---|---|
+| Parameters | **5.61M** (4.56M backbone + 1.05M adapter) |
+| Weight size | FP32 pair ≈ **45MB**; FP16 pair ≈ **22.5MB** |
+| GPU inference | weights <50MB; CUDA context typically **1–2GB**; a 16GB card is overkill |
+| No discrete GPU | **CPU works**; anytime search is slower |
+| Network | fully offline after weights; no online model/API calls |
+| Start | `git clone` → `download_weights.py` → `python -m doudizhu.gui` |
+| Training | reproducible on a single 16GB GPU; CPU self-play is the throughput bottleneck |
+
+**Why a small model can still play well:**
+
+1. **Compact action space**: 26,064 rank-canonical actions + PASS; no suit modelling, small output head.
+2. **Shared trunk**: one network for all three seats plus a role one-hot; no three separate models.
+3. **Residual adapter**: only +1.05M on top of 4.56M instead of retraining a larger network.
+4. **Search compensates**: 4→…→512 determinization rollouts during play; usable top-3 within 1.2s and deeper search afterwards.
+5. **Efficient training**: DMC self-play, opponent league, checkpoint soup; ~9.96M regular games + 1.31M no-shuffle expert games.
+
+On 1024 fixed deals, the 5.61M model reaches **0.958 / 0.814** overall vs random/greedy bots and **0.770** full-side vs the heuristic bot. On the no-shuffle distribution the expert beats the regular model **0.6387 vs 0.3613** in full-side head-to-head.
+These are bot/model results, **not human win rates**.
 
 ## Screenshots
 
