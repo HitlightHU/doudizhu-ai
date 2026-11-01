@@ -1,13 +1,17 @@
-"""Download the two released FP16 weights from GitHub Release assets.
+"""Download released weights from GitHub Release assets.
 
 Usage (from the repository root):
-    python scripts/download_weights.py
+    python scripts/download_weights.py                 # default FP32
+    python scripts/download_weights.py --precision fp16
+    python scripts/download_weights.py --precision both
 
-The downloader supports HTTP range resume. If a network drops, run it again;
-it continues from the existing .part file instead of restarting.
+FP32 keeps training precision (~22.4MB each). FP16 is ~11.2MB each and is
+loaded into FP32 for inference. Downloads support HTTP range resume; rerun
+the script after a network drop and it continues from the .part file.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import os
 import shutil
@@ -18,9 +22,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://github.com/HitlightHU/doudizhu-ai/releases/download/v1.0.0"
-FILES = {
-    "best_model.pt": ("C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0", 11229155),
-    "best_model_noshuffle.pt": ("5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED", 11230022),
+
+FP32 = {
+    "best_model.pt": ("best_model.pt", "258E793FB84C09F92246D8696B5DEBBF5CDA87C7C445ADDED995344318123E49", 22450700),
+    "best_model_noshuffle.pt": ("best_model_noshuffle.pt", "BD91D6924EABC5DCC3A11C2AF75EB69113E4217BFFBB5E636DA2A11EA7A6AE34", 22451127),
+}
+FP16 = {
+    "best_model.pt": ("best_model_fp16.pt", "E8E98EF03EEC7A72428133263F9B400D397992E47814D94C55D623425BBEBC01", 11229126),
+    "best_model_noshuffle.pt": ("best_model_noshuffle_fp16.pt", "88F4A09586DE85B6661625D5FB170F16D156DF68752DE8D82FC3261E2749E13B", 11230376),
 }
 
 
@@ -30,6 +39,18 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest().upper()
+
+
+def plan(precision: str):
+    items = []
+    if precision in ("fp32", "both"):
+        for dest, (asset, digest, size) in FP32.items():
+            items.append((dest, asset, digest, size))
+    if precision in ("fp16", "both"):
+        for dest, (asset, digest, size) in FP16.items():
+            out_name = dest if precision == "fp16" else dest.replace(".pt", "_fp16.pt")
+            items.append((out_name, asset, digest, size))
+    return items
 
 
 def curl_fetch(url: str, tmp: Path, expected_size: int) -> bool:
@@ -43,16 +64,16 @@ def curl_fetch(url: str, tmp: Path, expected_size: int) -> bool:
         "-o", str(tmp), url,
     ]
     if os.name == "nt":
-        # Windows Schannel: the VPN certificate chain may have no reachable CRL.
+        # Windows Schannel: VPN certificate chain may have no reachable CRL.
         cmd.insert(3, "--ssl-no-revoke")
-    for attempt in range(1, 6):
+    for attempt in range(1, 8):
         proc = subprocess.run(cmd)
         size = tmp.stat().st_size if tmp.exists() else 0
         if proc.returncode == 0 and size == expected_size:
             return True
         if size >= expected_size:
             return False
-        print(f"[retry] curl attempt {attempt} stopped at {size/1024/1024:.1f} MiB", flush=True)
+        print(f"[retry] {tmp.name}: attempt {attempt} stopped at {size/1024/1024:.1f} MiB", flush=True)
     return False
 
 
@@ -71,35 +92,39 @@ def urllib_fetch(url: str, tmp: Path) -> bool:
 
 
 def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--precision", choices=["fp32", "fp16", "both"], default="fp32",
+                    help="fp32 = exact/default; fp16 = half-size; both = download all")
+    args = ap.parse_args()
     out_dir = ROOT / "checkpoints"
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, (expected_hash, expected_size) in FILES.items():
-        dst = out_dir / name
+
+    for dest, asset, expected_hash, expected_size in plan(args.precision):
+        dst = out_dir / dest
         if dst.exists() and dst.stat().st_size == expected_size and sha256(dst) == expected_hash:
-            print(f"[skip] {name} already valid")
+            print(f"[skip] {dest} already valid")
             continue
-        url = f"{BASE}/{name}"
+        url = f"{BASE}/{asset}"
         tmp = dst.with_suffix(dst.suffix + ".part")
         if tmp.exists() and tmp.stat().st_size >= expected_size:
             tmp.unlink()
-        print(f"[get ] {name} <- {url}", flush=True)
+        print(f"[get ] {dest} <- {url}", flush=True)
 
-        # Never append from byte 0 to an existing partial file.
         if tmp.exists() and tmp.stat().st_size > 0:
             ok = curl_fetch(url, tmp, expected_size)
         else:
             ok = curl_fetch(url, tmp, expected_size) or urllib_fetch(url, tmp)
         if not ok or not tmp.exists():
-            print(f"[fail] {name}: incomplete download; rerun to resume", file=sys.stderr)
+            print(f"[fail] {dest}: incomplete; rerun to resume", file=sys.stderr)
             return 1
         size = tmp.stat().st_size
         digest = sha256(tmp)
         if size != expected_size or digest != expected_hash:
             tmp.unlink(missing_ok=True)
-            print(f"[fail] {name}: size/hash mismatch: size={size} hash={digest}", file=sys.stderr)
+            print(f"[fail] {dest}: size/hash mismatch: size={size} hash={digest}", file=sys.stderr)
             return 1
         tmp.replace(dst)
-        print(f"[ok  ] {name} ({size/1024/1024:.1f} MiB)")
+        print(f"[ok  ] {dest} ({size/1024/1024:.1f} MiB)")
     return 0
 
 

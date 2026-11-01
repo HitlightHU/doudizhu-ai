@@ -9,15 +9,19 @@
 
 | 文件 | 用途 | 大小 |
 |---|---|---:|
-| `best_model.pt` | 常规模式默认模型（FP16 存储，加载为 FP32） | 11.2 MB |
-| `best_model_noshuffle.pt` | 不洗牌分析模式专家（FP16 存储，加载为 FP32） | 11.2 MB |
+| `best_model.pt` | 常规模式默认模型（FP32） | 22.4 MB |
+| `best_model_noshuffle.pt` | 不洗牌分析模式专家（FP32） | 22.4 MB |
+| `best_model_fp16.pt` | 常规模式轻量版（FP16 存储） | 11.2 MB |
+| `best_model_noshuffle_fp16.pt` | 不洗牌轻量版（FP16 存储） | 11.2 MB |
 | `bid_net.pt` | 常规模式叫地主先验 | 84 KB |
 
 SHA256：
 
 ```text
-best_model.pt          C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0
-best_model_noshuffle.pt 5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED
+best_model.pt          258E793FB84C09F92246D8696B5DEBBF5CDA87C7C445ADDED995344318123E49
+best_model_noshuffle.pt BD91D6924EABC5DCC3A11C2AF75EB69113E4217BFFBB5E636DA2A11EA7A6AE34
+best_model_fp16.pt     E8E98EF03EEC7A72428133263F9B400D397992E47814D94C55D623425BBEBC01
+best_model_noshuffle_fp16.pt 88F4A09586DE85B6661625D5FB170F16D156DF68752DE8D82FC3261E2749E13B
 bid_net.pt             64B8CA85A625D5F094B01F61874D03059915E6D34775EAF9E8A6CFFB226EFC6F
 ```
 

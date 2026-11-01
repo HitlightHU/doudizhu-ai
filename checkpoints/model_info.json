@@ -14,16 +14,16 @@
     "state_dim": 132,
     "hist_len": 15,
     "hist_dim": 33,
-    "sha256": "C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0",
-    "file_bytes": 11229155
+    "sha256": "258E793FB84C09F92246D8696B5DEBBF5CDA87C7C445ADDED995344318123E49",
+    "file_bytes": 22450700
   },
   "no_shuffle_model": {
     "params_m": 5.61,
     "purpose": "Analysis mode only; replaces regular model when 不洗牌模式 selected",
     "training_iters": 80,
     "training_games": 1313483,
-    "sha256": "5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED",
-    "file_bytes": 11230022
+    "sha256": "BD91D6924EABC5DCC3A11C2AF75EB69113E4217BFFBB5E636DA2A11EA7A6AE34",
+    "file_bytes": 22451127
   },
   "bid_net": {
     "file": "checkpoints/bid_net.pt",
@@ -83,6 +83,34 @@
     "regular_bid": "p_ll > p_f OR p_ll > 0.70 OR p_ll >= p_f - 0.05",
     "double": "own camp win estimate > 0.70"
   },
-  "storage": "FP16 state dict; loaded as FP32",
-  "distribution": "GitHub Release v1.0.0 assets; download with scripts/download_weights.py"
+  "storage": "FP32 state dict; inference precision",
+  "distribution": "GitHub Release v1.0.0 assets; download with scripts/download_weights.py",
+  "precision_variants": {
+    "fp32": {
+      "note": "exact training precision; default",
+      "files": {
+        "regular": "checkpoints/best_model.pt",
+        "no_shuffle": "checkpoints/best_model_noshuffle.pt"
+      },
+      "sizes": {
+        "regular": 22450700,
+        "no_shuffle": 22451127
+      }
+    },
+    "fp16": {
+      "note": "half-size storage; loaded as FP32",
+      "files": {
+        "regular": "best_model_fp16.pt",
+        "no_shuffle": "best_model_noshuffle_fp16.pt"
+      },
+      "sizes": {
+        "regular": 11229126,
+        "no_shuffle": 11230376
+      },
+      "sha256": {
+        "regular": "E8E98EF03EEC7A72428133263F9B400D397992E47814D94C55D623425BBEBC01",
+        "no_shuffle": "88F4A09586DE85B6661625D5FB170F16D156DF68752DE8D82FC3261E2749E13B"
+      }
+    }
+  }
 }

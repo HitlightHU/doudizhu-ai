@@ -9,15 +9,19 @@ Only minimal inference state dicts are included; no optimizer. The two large wei
 
 | File | Purpose | Size |
 |---|---|---:|
-| `best_model.pt` | regular default (FP16 storage, loaded as FP32) | 11.2 MB |
-| `best_model_noshuffle.pt` | no-shuffle analysis expert (FP16 storage, loaded as FP32) | 11.2 MB |
+| `best_model.pt` | regular default (FP32) | 22.4 MB |
+| `best_model_noshuffle.pt` | no-shuffle analysis expert (FP32) | 22.4 MB |
+| `best_model_fp16.pt` | lightweight regular (FP16 storage) | 11.2 MB |
+| `best_model_noshuffle_fp16.pt` | lightweight no-shuffle (FP16 storage) | 11.2 MB |
 | `bid_net.pt` | regular-mode bid prior | 84 KB |
 
 SHA256:
 
 ```text
-best_model.pt          C7DDCE6900E7E2243704F9362727E9BDA225C0F316C72D2588308C2B71B7E5E0
-best_model_noshuffle.pt 5F702526994AD6A3D61599D45421D2A1EB9EAF02BB9CB995834E37D5D18361ED
+best_model.pt          258E793FB84C09F92246D8696B5DEBBF5CDA87C7C445ADDED995344318123E49
+best_model_noshuffle.pt BD91D6924EABC5DCC3A11C2AF75EB69113E4217BFFBB5E636DA2A11EA7A6AE34
+best_model_fp16.pt     E8E98EF03EEC7A72428133263F9B400D397992E47814D94C55D623425BBEBC01
+best_model_noshuffle_fp16.pt 88F4A09586DE85B6661625D5FB170F16D156DF68752DE8D82FC3261E2749E13B
 bid_net.pt             64B8CA85A625D5F094B01F61874D03059915E6D34775EAF9E8A6CFFB226EFC6F
 ```
 

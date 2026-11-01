@@ -22,6 +22,7 @@ Thumbs.db
 # Weights are release assets, not tracked in Git
 checkpoints/best_model.pt
 checkpoints/best_model_noshuffle.pt
+checkpoints/*_fp16.pt
 
 # Local screenshots created by tests
 checkpoints/gui_test*.png

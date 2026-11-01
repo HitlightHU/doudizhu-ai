@@ -187,8 +187,16 @@ Windows 也可以双击 `run_gui.bat`。
 | `checkpoints/best_model_noshuffle.pt` | 不洗牌分析模式专用 | 5.61M |
 | `checkpoints/bid_net.pt` | 常规模式叫地主先验 | 小网络 |
 
-权重是**推理所需的最小 state_dict**，不包含 optimizer；以 **FP16 存储（每个 11.2MB），加载时转回 FP32 推理**。  
-两个权重作为 **GitHub Release 附件**存放，运行 `python scripts/download_weights.py` 下载；Git 历史里只有代码。完整指标见
+权重是**推理所需的最小 state_dict**，不包含 optimizer；Git 历史里只有代码。  
+两种精度都放在 [Release v1.0.0](https://github.com/HitlightHU/doudizhu-ai/releases/tag/v1.0.0)：
+
+| 精度 | 每个大小 | 说明 | 下载 |
+|---|---:|---|---|
+| **FP32**（默认） | 22.4MB | 与训练精度完全一致 | `python scripts/download_weights.py` |
+| **FP16** | 11.2MB | 半精度存储，加载时转 FP32；体积约一半 | `python scripts/download_weights.py --precision fp16` |
+| 两种都要 | 67MB | FP32 标准名 + FP16 `*_fp16.pt` | `python scripts/download_weights.py --precision both` |
+
+完整指标见
 [`checkpoints/model_info.json`](checkpoints/model_info.json) 和 [模型卡](checkpoints/README.md)。
 
 ## 技术方案

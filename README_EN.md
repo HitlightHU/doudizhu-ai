@@ -184,8 +184,16 @@ Full-side head-to-head on the same deals (512 games, no bots, landlord/farmer sw
 | `checkpoints/best_model_noshuffle.pt` | no-shuffle analysis expert | 5.61M |
 | `checkpoints/bid_net.pt` | regular-mode bid prior | small MLP |
 
-Weights are minimal inference-only state dicts (no optimizer), stored in **FP16 (11.2MB each) and loaded as FP32**.  
-The two weights are **GitHub Release assets**; run `python scripts/download_weights.py`. Git history contains code only. Full metrics are in
+Weights are minimal inference-only state dicts (no optimizer); Git history contains code only.  
+Both precisions are in [Release v1.0.0](https://github.com/HitlightHU/doudizhu-ai/releases/tag/v1.0.0):
+
+| Precision | Size each | Notes | Download |
+|---|---:|---|---|
+| **FP32** (default) | 22.4MB | exact training precision | `python scripts/download_weights.py` |
+| **FP16** | 11.2MB | half-size storage, loaded as FP32 | `python scripts/download_weights.py --precision fp16` |
+| Both | 67MB | FP32 standard names + FP16 `*_fp16.pt` | `python scripts/download_weights.py --precision both` |
+
+Full metrics are in
 [`checkpoints/model_info.json`](checkpoints/model_info.json) and the [model card](checkpoints/README_EN.md).
 
 ## Architecture
